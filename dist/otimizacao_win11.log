@@ -1,0 +1,139 @@
+
+=== Desativando transparências ===
+A opera‡Æo foi conclu¡da com ˆxito.
+
+=== Desativando transparências ===
+A opera‡Æo foi conclu¡da com ˆxito.
+[12/12/2025 12:52:44] === Executando IPConfig ===[12/12/2025 12:52:44] 
+[12/12/2025 12:52:44] Configura‡Æo de IP do Windows
+[12/12/2025 12:52:44] 
+[12/12/2025 12:52:44]    Nome do host. . . . . . . . . . . . . . . . : DESKTOP-KAINAN
+[12/12/2025 12:52:44]    Sufixo DNS prim rio . . . . . . . . . . . . : 
+[12/12/2025 12:52:44]    Tipo de n¢. . . . . . . . . . . . . . . . . : h¡brido
+[12/12/2025 12:52:44]    Roteamento de IP ativado. . . . . . . . . . : nÆo
+[12/12/2025 12:52:44]    Proxy WINS ativado. . . . . . . . . . . . . : nÆo
+[12/12/2025 12:52:44]    Lista de pesquisa de sufixo DNS . . . . . . : sekur.local
+[12/12/2025 12:52:44] 
+[12/12/2025 12:52:44] Adaptador Ethernet Ethernet:
+[12/12/2025 12:52:44] 
+[12/12/2025 12:52:44]    Estado da m¡dia. . . . . . . . . . . . . .  : m¡dia desconectada
+[12/12/2025 12:52:44]    Sufixo DNS espec¡fico de conexÆo. . . . . . : 
+[12/12/2025 12:52:44]    Descri‡Æo . . . . . . . . . . . . . . . . . : Realtek PCIe GbE Family Controller
+[12/12/2025 12:52:44]    Endere‡o F¡sico . . . . . . . . . . . . . . : B8-85-84-FE-12-DB
+[12/12/2025 12:52:44]    DHCP Habilitado . . . . . . . . . . . . . . : Sim
+[12/12/2025 12:52:44]    Configura‡Æo Autom tica Habilitada. . . . . : Sim
+[12/12/2025 12:52:44] 
+[12/12/2025 12:52:44] Adaptador desconhecido OpenVPN Wintun:
+[12/12/2025 12:52:44] 
+[12/12/2025 12:52:44]    Estado da m¡dia. . . . . . . . . . . . . .  : m¡dia desconectada
+[12/12/2025 12:52:44]    Sufixo DNS espec¡fico de conexÆo. . . . . . : 
+[12/12/2025 12:52:44]    Descri‡Æo . . . . . . . . . . . . . . . . . : Wintun Userspace Tunnel
+[12/12/2025 12:52:44]    Endere‡o F¡sico . . . . . . . . . . . . . . : 
+[12/12/2025 12:52:44]    DHCP Habilitado . . . . . . . . . . . . . . : NÆo
+[12/12/2025 12:52:44]    Configura‡Æo Autom tica Habilitada. . . . . : Sim
+[12/12/2025 12:52:44] 
+[12/12/2025 12:52:44] Adaptador Ethernet Ethernet 4:
+[12/12/2025 12:52:44] 
+[12/12/2025 12:52:44]    Sufixo DNS espec¡fico de conexÆo. . . . . . : 
+[12/12/2025 12:52:44]    Descri‡Æo . . . . . . . . . . . . . . . . . : VirtualBox Host-Only Ethernet Adapter
+[12/12/2025 12:52:44]    Endere‡o F¡sico . . . . . . . . . . . . . . : 0A-00-27-00-00-14
+[12/12/2025 12:52:44]    DHCP Habilitado . . . . . . . . . . . . . . : NÆo
+[12/12/2025 12:52:44]    Configura‡Æo Autom tica Habilitada. . . . . : Sim
+[12/12/2025 12:52:44]    Endere‡o IPv6 de link local . . . . . . . . : fe80::6745:fb27:fc3a:b2a9%20(Preferencial) 
+[12/12/2025 12:52:44]    Endere‡o IPv4. . . . . . . .  . . . . . . . : 192.168.56.1(Preferencial) 
+[12/12/2025 12:52:44]    M scara de Sub-rede . . . . . . . . . . . . : 255.255.255.0
+[12/12/2025 12:52:44]    Gateway PadrÆo. . . . . . . . . . . . . . . : 
+[12/12/2025 12:52:44]    IAID de DHCPv6. . . . . . . . . . . . . . . : 1158283303
+[12/12/2025 12:52:44]    DUID de Cliente DHCPv6. . . . . . . . . . . : 00-01-00-01-30-1A-8B-D3-B8-85-84-FE-12-DB
+[12/12/2025 12:52:44]    NetBIOS em Tcpip. . . . . . . . . . . . . . : Habilitado
+[12/12/2025 12:52:44] 
+[12/12/2025 12:52:44] Adaptador desconhecido OpenVPN TAP-Windows6:
+[12/12/2025 12:52:45] 
+[12/12/2025 12:52:45]    Sufixo DNS espec¡fico de conexÆo. . . . . . : 
+[12/12/2025 12:52:45]    Descri‡Æo . . . . . . . . . . . . . . . . . : TAP-Windows Adapter V9
+[12/12/2025 12:52:45]    Endere‡o F¡sico . . . . . . . . . . . . . . : 00-FF-63-C9-12-17
+[12/12/2025 12:52:45]    DHCP Habilitado . . . . . . . . . . . . . . : Sim
+[12/12/2025 12:52:45]    Configura‡Æo Autom tica Habilitada. . . . . : Sim
+[12/12/2025 12:52:45]    Endere‡o IPv6 de link local . . . . . . . . : fe80::fbe7:1a60:8eba:942f%12(Preferencial) 
+[12/12/2025 12:52:45]    Endere‡o IPv4. . . . . . . .  . . . . . . . : 10.8.0.101(Preferencial) 
+[12/12/2025 12:52:45]    M scara de Sub-rede . . . . . . . . . . . . : 255.255.255.0
+[12/12/2025 12:52:45]    ConcessÆo Obtida. . . . . . . . . . . . . . : sexta-feira, 12 de dezembro de 2025 10:46:07
+[12/12/2025 12:52:45]    ConcessÆo Expira. . . . . . . . . . . . . . : s bado, 12 de dezembro de 2026 10:46:06
+[12/12/2025 12:52:45]    Gateway PadrÆo. . . . . . . . . . . . . . . : 
+[12/12/2025 12:52:45]    Servidor DHCP . . . . . . . . . . . . . . . : 10.8.0.0
+[12/12/2025 12:52:45]    IAID de DHCPv6. . . . . . . . . . . . . . . : 184614755
+[12/12/2025 12:52:45]    DUID de Cliente DHCPv6. . . . . . . . . . . : 00-01-00-01-30-1A-8B-D3-B8-85-84-FE-12-DB
+[12/12/2025 12:52:45]    Servidores DNS. . . . . . . . . . . . . . . : 8.8.8.8
+[12/12/2025 12:52:45]                                                  8.8.4.4
+[12/12/2025 12:52:45]    NetBIOS em Tcpip. . . . . . . . . . . . . . : Habilitado
+[12/12/2025 12:52:45] 
+[12/12/2025 12:52:45] Adaptador desconhecido ConexÆo Local:
+[12/12/2025 12:52:45] 
+[12/12/2025 12:52:45]    Estado da m¡dia. . . . . . . . . . . . . .  : m¡dia desconectada
+[12/12/2025 12:52:45]    Sufixo DNS espec¡fico de conexÆo. . . . . . : 
+[12/12/2025 12:52:45]    Descri‡Æo . . . . . . . . . . . . . . . . . : TAP-Windows Adapter V9 #2
+[12/12/2025 12:52:45]    Endere‡o F¡sico . . . . . . . . . . . . . . : 00-FF-26-D7-95-76
+[12/12/2025 12:52:45]    DHCP Habilitado . . . . . . . . . . . . . . : Sim
+[12/12/2025 12:52:45]    Configura‡Æo Autom tica Habilitada. . . . . : Sim
+[12/12/2025 12:52:45] 
+[12/12/2025 12:52:46] Adaptador de Rede sem Fio ConexÆo Local* 1:
+[12/12/2025 12:52:46] 
+[12/12/2025 12:52:46]    Estado da m¡dia. . . . . . . . . . . . . .  : m¡dia desconectada
+[12/12/2025 12:52:46]    Sufixo DNS espec¡fico de conexÆo. . . . . . : 
+[12/12/2025 12:52:46]    Descri‡Æo . . . . . . . . . . . . . . . . . : Microsoft Wi-Fi Direct Virtual Adapter
+[12/12/2025 12:52:46]    Endere‡o F¡sico . . . . . . . . . . . . . . : C2-B5-D7-1A-C2-B1
+[12/12/2025 12:52:46]    DHCP Habilitado . . . . . . . . . . . . . . : Sim
+[12/12/2025 12:52:46]    Configura‡Æo Autom tica Habilitada. . . . . : Sim
+[12/12/2025 12:52:46] 
+[12/12/2025 12:52:46] Adaptador de Rede sem Fio ConexÆo Local* 2:
+[12/12/2025 12:52:46] 
+[12/12/2025 12:52:46]    Estado da m¡dia. . . . . . . . . . . . . .  : m¡dia desconectada
+[12/12/2025 12:52:46]    Sufixo DNS espec¡fico de conexÆo. . . . . . : 
+[12/12/2025 12:52:46]    Descri‡Æo . . . . . . . . . . . . . . . . . : Microsoft Wi-Fi Direct Virtual Adapter #2
+[12/12/2025 12:52:46]    Endere‡o F¡sico . . . . . . . . . . . . . . : D2-B5-D7-1A-C2-B1
+[12/12/2025 12:52:46]    DHCP Habilitado . . . . . . . . . . . . . . : NÆo
+[12/12/2025 12:52:46]    Configura‡Æo Autom tica Habilitada. . . . . : Sim
+[12/12/2025 12:52:46] 
+[12/12/2025 12:52:46] Adaptador de Rede sem Fio Wi-Fi:
+[12/12/2025 12:52:46] 
+[12/12/2025 12:52:46]    Sufixo DNS espec¡fico de conexÆo. . . . . . : sekur.local
+[12/12/2025 12:52:46]    Descri‡Æo . . . . . . . . . . . . . . . . . : Qualcomm QCA61x4A 802.11ac Wireless Adapter
+[12/12/2025 12:52:47]    Endere‡o F¡sico . . . . . . . . . . . . . . : C0-B5-D7-1A-C2-B1
+[12/12/2025 12:52:47]    DHCP Habilitado . . . . . . . . . . . . . . : Sim
+[12/12/2025 12:52:47]    Configura‡Æo Autom tica Habilitada. . . . . : Sim
+[12/12/2025 12:52:47]    Endere‡o IPv6 de link local . . . . . . . . : fe80::4b41:7615:d276:b415%7(Preferencial) 
+[12/12/2025 12:52:47]    Endere‡o IPv4. . . . . . . .  . . . . . . . : 192.168.99.188(Preferencial) 
+[12/12/2025 12:52:47]    M scara de Sub-rede . . . . . . . . . . . . : 255.255.255.0
+[12/12/2025 12:52:47]    ConcessÆo Obtida. . . . . . . . . . . . . . : sexta-feira, 12 de dezembro de 2025 07:33:19
+[12/12/2025 12:52:47]    ConcessÆo Expira. . . . . . . . . . . . . . : sexta-feira, 12 de dezembro de 2025 14:33:19
+[12/12/2025 12:52:47]    Gateway PadrÆo. . . . . . . . . . . . . . . : fe80::215:5dff:fe01:c9c%7
+[12/12/2025 12:52:47]                                                  192.168.99.1
+[12/12/2025 12:52:47]    Servidor DHCP . . . . . . . . . . . . . . . : 192.168.99.1
+[12/12/2025 12:52:47]    IAID de DHCPv6. . . . . . . . . . . . . . . : 264287703
+[12/12/2025 12:52:47]    DUID de Cliente DHCPv6. . . . . . . . . . . : 00-01-00-01-30-1A-8B-D3-B8-85-84-FE-12-DB
+[12/12/2025 12:52:47]    Servidores DNS. . . . . . . . . . . . . . . : 8.8.8.8
+[12/12/2025 12:52:47]    NetBIOS em Tcpip. . . . . . . . . . . . . . : Habilitado
+[12/12/2025 12:52:47] 
+[12/12/2025 12:52:47] Adaptador Ethernet ConexÆo de Rede Bluetooth 2:
+[12/12/2025 12:52:47] 
+[12/12/2025 12:52:47]    Estado da m¡dia. . . . . . . . . . . . . .  : m¡dia desconectada
+[12/12/2025 12:52:47]    Sufixo DNS espec¡fico de conexÆo. . . . . . : 
+[12/12/2025 12:52:47]    Descri‡Æo . . . . . . . . . . . . . . . . . : Bluetooth Device (Personal Area Network) #2
+[12/12/2025 12:52:47]    Endere‡o F¡sico . . . . . . . . . . . . . . : C0-B5-D7-1A-C2-B2
+[12/12/2025 12:52:47]    DHCP Habilitado . . . . . . . . . . . . . . : Sim
+[12/12/2025 12:52:48]    Configura‡Æo Autom tica Habilitada. . . . . : Sim
+[12/12/2025 12:52:48] 
+[12/12/2025 12:52:48] Adaptador Ethernet vEthernet (Default Switch):
+[12/12/2025 12:52:48] 
+[12/12/2025 12:52:48]    Sufixo DNS espec¡fico de conexÆo. . . . . . : 
+[12/12/2025 12:52:48]    Descri‡Æo . . . . . . . . . . . . . . . . . : Hyper-V Virtual Ethernet Adapter
+[12/12/2025 12:52:48]    Endere‡o F¡sico . . . . . . . . . . . . . . : 00-15-5D-39-0D-9C
+[12/12/2025 12:52:48]    DHCP Habilitado . . . . . . . . . . . . . . : NÆo
+[12/12/2025 12:52:48]    Configura‡Æo Autom tica Habilitada. . . . . : Sim
+[12/12/2025 12:52:48]    Endere‡o IPv6 de link local . . . . . . . . : fe80::3d23:9d39:a762:8aa1%30(Preferencial) 
+[12/12/2025 12:52:48]    Endere‡o IPv4. . . . . . . .  . . . . . . . : 172.28.208.1(Preferencial) 
+[12/12/2025 12:52:48]    M scara de Sub-rede . . . . . . . . . . . . : 255.255.240.0
+[12/12/2025 12:52:48]    Gateway PadrÆo. . . . . . . . . . . . . . . : 
+[12/12/2025 12:52:48]    IAID de DHCPv6. . . . . . . . . . . . . . . : 503321949
+[12/12/2025 12:52:48]    DUID de Cliente DHCPv6. . . . . . . . . . . : 00-01-00-01-30-1A-8B-D3-B8-85-84-FE-12-DB
+[12/12/2025 12:52:48]    NetBIOS em Tcpip. . . . . . . . . . . . . . : Habilitado

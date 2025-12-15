@@ -1,31 +1,229 @@
 import subprocess
 import threading
 from datetime import datetime
+import socket
+import os
+import platform
 
+
+APP_ASCII = [
+"           .:===++++++===:.           ",
+"        .-=++==-::..::-=+++:-.        ",
+"     ..=++=:...        ...::=+=:      ",
+"    .-++=..          ..:-===++++=.    ",
+"   .=+=...         .-++++++++++++=..  ",
+"  .=+=..         .-+++++++++++++++=.  ",
+"  -+=..         .-+++++++++++++++++-. ",
+" .=+-.          :-:.......:==+++++=:. ",
+" .++-...--                  .++=..%%: ",
+" .++.:%%%..                 ::...=%%:.",
+" .:#%%%%%%*-......:=+-          .*%%..",
+"  +%%%%%%%%%%%%%%%%%*.          .%%+. ",
+"  .#%%%%%%%%%%%%%%%*.          .%%#.  ",
+"  ..#%%%%%%%%%%%%*:.         .:#%#..  ",
+"    .*%%%%%##*=:.          ..*%%*..   ",
+"      :#%#--..          ..-#%%#:.     ",
+"        :*:%%%#+::::::+#%%%%*..       ",
+"           .-##%%%%%%%%%#-...         ",
+"                       ..             "
+]
+
+
+ACTIONS = {
+    0: {
+        "label": "Desativar Transparência",
+        "description": "Desativa as transparências do Windows (reg edit).",
+        "tab": "Otimização",
+        "danger": False,
+        "handler": "disable_transparency",
+    },
+    1: {
+        "label": "Desativar Game Mode",
+        "description": "Desativa Game Mode e Game Bar (reg edit).",
+        "tab": "Otimização",
+        "danger": False,
+        "handler": "disable_gamemode",
+    },
+    2: {
+        "label": "Plano de Energia",
+        "description": "Define o plano de energia para máximo desempenho (powercfg).",
+        "tab": "Otimização",
+        "danger": False,
+        "handler": "power_plan",
+    },
+    3: {
+        "label": "Efeitos Visuais",
+        "description": "Ajusta efeitos visuais para melhor desempenho.",
+        "tab": "Otimização",
+        "danger": False,
+        "handler": "visual_effects",
+    },
+    4: {
+        "label": "Desativar Serviços Pesados",
+        "description": "Desativa serviços como SysMain.",
+        "tab": "Otimização",
+        "danger": False,
+        "handler": "disable_services",
+    },
+    9: {
+        "label": "Otimização Completa",
+        "description": "Executa todas as otimizações de uma vez.",
+        "tab": "Otimização",
+        "danger": True,
+        "handler": "optimize_all",
+    },
+    10: {
+        "label": "Reiniciar Explorer",
+        "description": "Reinicia o Explorer (a área de trabalho some por alguns segundos).",
+        "tab": "Otimização",
+        "danger": True,
+        "handler": "restart_explorer",
+    },
+    5: {
+        "label": "Limpar Temporários",
+        "description": "Remove arquivos temporários (%TEMP%).",
+        "tab": "Arquivos",
+        "danger": False,
+        "handler": "clean_temp",
+    },
+    6: {
+        "label": "Limpar DNS",
+        "description": "Limpa o cache DNS.",
+        "tab": "Rede",
+        "danger": False,
+        "handler": "flush_dns",
+    },
+    13: {
+        "label": "Reset Winsock",
+        "description": "Reseta Winsock (pode desconectar a rede).",
+        "tab": "Rede",
+        "danger": True,
+        "handler": "reset_winsock",
+    },
+    17: {
+        "label": "IPConfig",
+        "description": "Mostra configurações de rede (ipconfig /all).",
+        "tab": "Diagnóstico",
+        "danger": False,
+        "handler": "run_ipconfig",
+    },
+    16: {
+        "label": "Executar MAS",
+        "description": "Executa Microsoft Activation Scripts (janela externa).",
+        "tab": "Ativação",
+        "danger": True,
+        "handler": "run_massgrave",
+    },
+        18: {
+        "label": "Ping Google",
+        "description": "Testa conectividade com google.com.",
+        "tab": "Diagnóstico",
+        "danger": False,
+        "handler": "ping_google",
+    },
+    19: {
+        "label": "Traceroute",
+        "description": "Rastreia rota até google.com.",
+        "tab": "Diagnóstico",
+        "danger": False,
+        "handler": "run_tracert",
+    },
+    20: {
+        "label": "NSLookup",
+        "description": "Consulta DNS do Google.",
+        "tab": "Diagnóstico",
+        "danger": False,
+        "handler": "run_nslookup",
+    },
+    21: {
+        "label": "Netstat",
+        "description": "Mostra conexões de rede ativas.",
+        "tab": "Rede",
+        "danger": False,
+        "handler": "run_netstat",
+    },
+    22: {
+        "label": "ARP Table",
+        "description": "Mostra tabela ARP.",
+        "tab": "Rede",
+        "danger": False,
+        "handler": "run_arp",
+    },
+    23: {
+        "label": "Rotas",
+        "description": "Mostra tabela de rotas.",
+        "tab": "Rede",
+        "danger": False,
+        "handler": "run_route",
+    },
+    24: {
+        "label": "SystemInfo",
+        "description": "Mostra informações completas do sistema.",
+        "tab": "Sistema",
+        "danger": False,
+        "handler": "run_systeminfo",
+    },
+    25: {
+        "label": "Processos",
+        "description": "Lista processos em execução.",
+        "tab": "Sistema",
+        "danger": False,
+        "handler": "run_tasklist",
+    },
+    26: {
+        "label": "Drivers",
+        "description": "Lista drivers instalados.",
+        "tab": "Sistema",
+        "danger": False,
+        "handler": "run_driverquery",
+    },
+}
 
 class App:
     def __init__(self, gui):
+        self.gui = None
+        self.start_time = datetime.now()
+        self.log_file = self.gerar_log_file()
+
+        self.show_fetch()
+
+    def set_gui(self, gui):
         self.gui = gui
-        self.log_file = "otimizacao_win11.log"
 
     # ============================================
     # LOG CENTRAL
     # ============================================
+    def gerar_log_file(self):
+        hostname = socket.gethostname()
+        data_hora = datetime.now().strftime("%Y-%m-%d_%H-%M-%S")
+        nome = f"{hostname}-{data_hora}.log"
+
+        pasta_logs = "logs"
+        os.makedirs(pasta_logs, exist_ok=True)
+
+        return os.path.join(pasta_logs, nome)
+
     def log(self, msg):
-        self.gui.add_log(msg + "\n")
-        with open(self.log_file, "a", encoding="utf-8") as f:
-            f.write(msg + "\n")
+        timestamp = datetime.now().strftime("[%d/%m/%Y %H:%M:%S] ")
+        texto = timestamp + msg
+
+        # Interface
+        self.gui.add_log(texto)
+
+        # Arquivo
+        with open(self.log_file, "a", encoding="utf-8", errors="replace") as f:
+            f.write(texto + "\n")
+
 
     def _decode(self, raw):
-        for enc in ["utf-8", "cp1252", "latin1"]:
-            try:
-                return raw.decode(enc).rstrip()
-            except UnicodeDecodeError:
-                pass
-        return raw.decode("latin1", errors="replace").rstrip()
+        try:
+            return raw.decode("cp850", errors="replace")
+        except Exception:
+            return raw.decode("latin-1", errors="replace")
+
 
     def run_command(self, desc, cmd):
-        self.log("\n=== " + desc + " ===")
+        self.log("=== " + desc + " ===")
 
         with subprocess.Popen(
             cmd, shell=True,
@@ -33,7 +231,58 @@ class App:
             stderr=subprocess.STDOUT
         ) as proc:
             for raw in proc.stdout:
-                self.log(self._decode(raw))
+                line = self._decode(raw).replace("\r\n", "\n")
+                self.log(line.rstrip("\n"))
+
+
+    # ============================================
+    # FAST FETCH
+    # ============================================
+    def on_gui_ready(self, gui):
+        self.gui = gui
+        self.show_fetch()
+
+    def log_fetch(self, msg):
+        if self.gui is None:
+            return  # não mostra fetch fora da GUI
+
+        self.gui.add_log(msg)
+
+        with open(self.log_file, "a", encoding="utf-8", errors="replace") as f:
+            f.write(msg + "\n")
+
+
+    def show_fetch(self):
+        hostname = socket.gethostname()
+        sistema = platform.system()
+        release = platform.release()
+        arquitetura = platform.machine()
+        python_ver = platform.python_version()
+        usuario = os.getlogin()
+        inicio = self.start_time.strftime("%d/%m/%Y %H:%M:%S")
+
+        info = [
+            f"Usuário        : {usuario}",
+            f"Máquina        : {hostname}",
+            f"Sistema        : {sistema} {release}",
+            f"Arquitetura    : {arquitetura}",
+            f"Python         : {python_ver}",
+            f"Aplicação      : Sek Optimize",
+            f"Iniciado em    : {inicio}",
+            f"Log            : {os.path.basename(self.log_file)}",
+        ]
+
+        self.log_fetch("")  # linha em branco inicial
+
+        max_lines = max(len(APP_ASCII), len(info))
+
+        for i in range(max_lines):
+            left = APP_ASCII[i] if i < len(APP_ASCII) else ""
+            right = info[i] if i < len(info) else ""
+
+            self.log_fetch(f"{left:<30}   {right}")
+
+        self.log_fetch("")
 
     # ============================================
     # FUNÇÕES INDIVIDUAIS
@@ -99,31 +348,61 @@ class App:
 
         subprocess.Popen(cmd, shell=True)
 
+    def run_ipconfig(self):
+        self.run_command("Executando IPConfig", "ipconfig /all")
 
+    def restart_explorer(self):
+        self.run_command(
+            "Reiniciando Explorer",
+            "taskkill /f /im explorer.exe & start explorer.exe"
+        )
+
+    def reset_winsock(self):
+        self.run_command(
+            "Resetando Winsock",
+            "netsh winsock reset"
+        )
+
+    def ping_google(self):
+        self.run_command("Ping Google", "ping google.com")
+
+    def run_tracert(self):
+        self.run_command("Traceroute Google", "tracert google.com")
+
+    def run_nslookup(self):
+        self.run_command("NSLookup Google", "nslookup google.com")
+
+    def run_netstat(self):
+        self.run_command("Netstat", "netstat -ano")
+
+    def run_arp(self):
+        self.run_command("Tabela ARP", "arp -a")
+
+    def run_route(self):
+        self.run_command("Tabela de Rotas", "route print")
+
+    def run_systeminfo(self):
+        self.run_command("SystemInfo", "systeminfo")
+
+    def run_tasklist(self):
+        self.run_command("Lista de Processos", "tasklist")
+
+    def run_driverquery(self):
+        self.run_command("Lista de Drivers", "driverquery")
 
     # ============================================
     # MAPEAMENTO DOS BOTÕES
     # ============================================
     def execute_button(self, index):
+        action = ACTIONS.get(index)
+        if not action:
+            return
 
-        actions = {
-            0: self.disable_transparency,
-            1: self.disable_gamemode,
-            2: self.power_plan,
-            3: self.visual_effects,
-            4: self.disable_services,
-            5: self.clean_temp,
-            6: self.flush_dns,
-            7: self.run_sfc,
-            8: self.run_dism,
-            9: self.optimize_all,
-            10: lambda: self.run_command("Reiniciando Explorer", "taskkill /f /im explorer.exe & start explorer.exe"),
-            11: lambda: self.log("Reparar rede ainda não implementado."),
-            12: lambda: self.log("Desfragmentar ainda não implementado."),
-            13: lambda: self.log("Reset Winsock ainda não implementado."),
-            14: lambda: self.log("Limpeza avançada ainda não implementada."),
-            15: lambda: self.log("Informações do sistema ainda não implementado."),
-            16: self.run_massgrave,
-        }
+        handler_name = action["handler"]
+        handler = getattr(self, handler_name, None)
 
-        threading.Thread(target=actions[index]).start()
+        if not handler:
+            self.log(f"Ação '{handler_name}' não implementada.")
+            return
+
+        threading.Thread(target=handler).start()
