@@ -2,16 +2,25 @@ import tkinter as tk
 from tkinter import ttk, messagebox, scrolledtext
 from collections import defaultdict
 from app import *
+import sys
+
+def resource_path(relative_path):
+    if hasattr(sys, "_MEIPASS"):
+        return os.path.join(sys._MEIPASS, relative_path)
+    return os.path.join(os.path.abspath("."), relative_path)
+
+icon_path = resource_path("icon.ico")
 
 class GUI:
 
-    def __init__(self, root, action_handler):
+    def __init__(self, root, app):
         self.root = root
-        self.action_handler = action_handler
+        self.app = app
 
         self.root.title("Sek Optmize")
         self.root.geometry("1300x700")
         self.root.configure(bg="#1e1e1e")
+        self.root.iconbitmap(icon_path)
 
         self.selected_index = None
 
@@ -137,6 +146,35 @@ class GUI:
             spacing3=0    # depois da linha
         )
 
+        # ============================
+        # TERMINAL / INPUT DE COMANDO
+        # ============================
+        cmd_frame = tk.Frame(right_frame, bg=self.bg_frame)
+        cmd_frame.pack(fill=tk.X, pady=(5, 0))
+
+        self.cmd_entry = tk.Entry(
+            cmd_frame,
+            bg="#1e1e1e",
+            fg="#00ff00",
+            insertbackground="white",
+            font=("Consolas", 10),
+            relief="flat"
+        )
+        self.cmd_entry.pack(side=tk.LEFT, fill=tk.X, expand=True, padx=(5, 5), pady=5)
+
+        self.cmd_entry.bind("<Return>", self._send_command)
+
+        send_btn = tk.Button(
+            cmd_frame,
+            text="Enviar",
+            bg=self.bg_button,
+            fg="white",
+            width=10,
+            command=self._send_command
+        )
+        send_btn.pack(side=tk.RIGHT, padx=(0, 5), pady=5)
+
+
     # ----------------------------------------------------------
     # TABS + BOTÕES
     # ----------------------------------------------------------
@@ -196,10 +234,24 @@ class GUI:
                 return
 
         # CHAMA O APP
-        self.action_handler(idx)
+        self.app.execute_button(idx)
 
         # Bloquear novamente após execução
         self.execute_btn.config(state=tk.DISABLED)
+
+
+    # ----------------------------------------------------------
+    # ENVIAR COMANDO (CHAT / TERMINAL)
+    # ----------------------------------------------------------
+    def _send_command(self, event=None):
+        cmd = self.cmd_entry.get().strip()
+        if not cmd:
+            return
+
+        self.add_log(f"> {cmd}")
+        self.cmd_entry.delete(0, tk.END)
+
+        self.app.run_custom_command(cmd)
 
     # ----------------------------------------------------------
     # LOG

@@ -1,7 +1,7 @@
 from config import *
 
 class App:
-    def __init__(self, gui):
+    def __init__(self):
         self.gui = None
         self.start_time = datetime.now()
         self.log_file = self.gerar_log_file()
@@ -227,3 +227,36 @@ class App:
             return
 
         threading.Thread(target=handler).start()
+
+
+    # ============================================
+    # EXECUTAR COMANDO DIGITADO (TERMINAL)
+    # ============================================
+    def _run_command(self, command):
+        self.log(f"> {command}")
+
+        try:
+            proc = subprocess.Popen(
+                command,
+                shell=True,
+                stdout=subprocess.PIPE,
+                stderr=subprocess.STDOUT
+            )
+
+            for raw in proc.stdout:
+                line = self._decode(raw).rstrip("\r\n")
+                if line:
+                    self.log(line)
+
+            proc.wait()
+
+        except Exception as e:
+            self.log(f"ERRO: {e}")
+
+
+
+    # ============================================
+    # COMANDO DIGITADO PELO TERMINAL DA GUI
+    # ============================================
+    def run_custom_command(self, command):
+        self._run_command(command)
