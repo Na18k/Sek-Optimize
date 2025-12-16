@@ -46,7 +46,7 @@ class GUI:
         self.left_container = tk.Frame(
             self.root,
             bg=self.bg_main,
-            width=450
+            width=500
         )
         self.left_container.pack(
             side=tk.LEFT,
@@ -73,7 +73,7 @@ class GUI:
         style.configure("TNotebook.Tab",
                         background=self.bg_frame,
                         foreground=self.fg_text,
-                        padding=[10, 5],
+                        padding=[5, 2],
                         font=("Segoe UI", 10))
         style.map("TNotebook.Tab",
                   background=[("selected", "#3d3d3d")])

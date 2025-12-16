@@ -112,7 +112,7 @@ class App:
             f"Uptime          : {uptime}",
             f"Iniciado em     : {inicio}",
             f"Log salvo como  : {os.path.basename(self.log_file)}",
-            f"|",
+            f" ",
             f"+   Software  + : + ------------------------------- +",
             f"Aplicação       : Sek Optimize",
             f"Versão          : {VERSION_SOFTWARE}",

@@ -174,6 +174,41 @@ ACTIONS = {
         "danger": True,
         "handler": "run_chkdsk",
     },
+    18: {
+        "label": "IPConfig",
+        "description": "Mostra configurações de rede (ipconfig /all).",
+        "tab": "Diagnóstico",
+        "danger": False,
+        "handler": "run_ipconfig",
+    },
+    19: {
+        "label": "Executar MAS",
+        "description": "Executa Microsoft Activation Scripts (janela externa).",
+        "tab": "Ativação",
+        "danger": True,
+        "handler": "run_massgrave",
+    },
+    20: {
+        "label": "Ping Google",
+        "description": "Testa conectividade com google.com.",
+        "tab": "Diagnóstico",
+        "danger": False,
+        "handler": "ping_google",
+    },
+    21: {
+        "label": "Traceroute",
+        "description": "Rastreia rota até google.com.",
+        "tab": "Diagnóstico",
+        "danger": False,
+        "handler": "run_tracert",
+    },
+    22: {
+        "label": "NSLookup",
+        "description": "Consulta DNS do Google.",
+        "tab": "Diagnóstico",
+        "danger": False,
+        "handler": "run_nslookup",
+    },
 }
 
 
