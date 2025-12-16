@@ -143,22 +143,29 @@ class App:
         )
 
     def disable_gamemode(self):
-        self.run_command("Desativando Game Mode e Game Bar",
+        self.run_command(
+            "Desativando Game Mode e Game Bar",
             r'reg add "HKCU\Software\Microsoft\GameBar" /v AutoGameModeEnabled /t REG_DWORD /d 0 /f'
+            r' & reg add "HKCU\System\GameConfigStore" /v GameDVR_Enabled /t REG_DWORD /d 0 /f'
         )
 
     def power_plan(self):
         self.run_command("Ajustando plano de energia", "powercfg -setactive SCHEME_MIN")
 
     def visual_effects(self):
-        self.run_command("Ajustando efeitos visuais",
+        self.run_command(
+            "Ajustando efeitos visuais para desempenho",
             r'reg add "HKCU\Control Panel\Desktop" /v DragFullWindows /t REG_SZ /d 0 /f'
+            r' & reg add "HKCU\Control Panel\Desktop" /v MenuShowDelay /t REG_SZ /d 0 /f'
+            r' & reg add "HKCU\Software\Microsoft\Windows\CurrentVersion\Explorer\VisualEffects" '
+            r'/v VisualFXSetting /t REG_DWORD /d 2 /f'
         )
 
     def disable_services(self):
-        self.run_command("Desativando serviços pesados",
-            r'sc config SysMain start=disabled'
-        )
+        self.run_command(
+            "Desativando serviços pesados (SysMain)",
+            r'sc stop SysMain & sc config SysMain start= disabled'
+        )   
 
     def clean_temp(self):
         user_temp = os.environ.get("TEMP")
@@ -211,8 +218,6 @@ class App:
         self.disable_services()
         self.clean_temp()
         self.flush_dns()
-        self.run_sfc()
-        self.run_dism()
         self.log("Otimização completa finalizada!")
 
     def run_massgrave(self):
@@ -266,6 +271,45 @@ class App:
 
     def run_driverquery(self):
         self.run_command("Lista de Drivers", "driverquery")
+
+    def run_chkdsk(self):
+        self.run_command(
+            "Agendando verificação de disco (CHKDSK)",
+            r'chkdsk C: /f /r'
+        )
+
+    def kill_background_tasks(self):
+        self.run_command(
+            "Encerrando processos em segundo plano",
+            r'taskkill /f /im OneDrive.exe & taskkill /f /im Teams.exe'
+        )
+
+    def reset_network(self):
+        self.run_command(
+            "Resetando configurações de rede",
+            r'netsh int ip reset & netsh winsock reset & ipconfig /flushdns'
+        )
+
+    def disable_fast_startup(self):
+        self.run_command(
+            "Desativando Inicialização Rápida",
+            r'reg add "HKLM\SYSTEM\CurrentControlSet\Control\Session Manager\Power" '
+            r'/v HiberbootEnabled /t REG_DWORD /d 0 /f'
+        )
+
+    def clean_windows_update(self):
+        self.run_command(
+            "Limpando cache do Windows Update",
+            r'net stop wuauserv & '
+            r'del /q /f /s C:\Windows\SoftwareDistribution\Download\*.* & '
+            r'net start wuauserv'
+        )
+
+    def clean_prefetch(self):
+        self.run_command(
+            "Limpando Prefetch do Windows",
+            r'del /q /f /s C:\Windows\Prefetch\*.*'
+        )
 
     # ============================================
     # MAPEAMENTO DOS BOTÕES
