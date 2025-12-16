@@ -44,7 +44,7 @@ class App:
 
 
     def run_command(self, desc, cmd):
-        self.log("=== " + desc + " ===")
+        self.log("" + desc)
 
         with subprocess.Popen(
             cmd, shell=True,
@@ -74,23 +74,51 @@ class App:
 
 
     def show_fetch(self):
-        hostname = socket.gethostname()
-        sistema = platform.system()
-        release = platform.release()
-        arquitetura = platform.machine()
-        python_ver = platform.python_version()
-        usuario = os.getlogin()
         inicio = self.start_time.strftime("%d/%m/%Y %H:%M:%S")
 
+        usuario = getpass.getuser()
+        hostname = socket.gethostname()
+
+        sistema = platform.system()
+        release = platform.release()
+        version = platform.version()
+        arquitetura = platform.machine()
+        processador = platform.processor()
+        python_ver = platform.python_version()
+
+        cpu_cores = psutil.cpu_count(logical=False)
+        cpu_threads = psutil.cpu_count(logical=True)
+
+        ram_total = round(psutil.virtual_memory().total / (1024**3), 1)
+
+        boot_mode = "UEFI" if os.path.exists("C:\\Windows\\System32\\SecureBoot.exe") else "Legacy"
+
+        uptime_seconds = time.time() - psutil.boot_time()
+        uptime = time.strftime("%H:%M:%S", time.gmtime(uptime_seconds))
+
+        exec_mode = "EXE (PyInstaller)" if getattr(sys, "frozen", False) else "Script (.py)"
+
         info = [
-            f"Usuário        : {usuario}",
-            f"Máquina        : {hostname}",
-            f"Sistema        : {sistema} {release}",
-            f"Arquitetura    : {arquitetura}",
-            f"Python         : {python_ver}",
-            f"Aplicação      : Sek Optimize",
-            f"Iniciado em    : {inicio}",
-            f"Log            : {os.path.basename(self.log_file)}",
+            f"+   Máquina   + : + ------------------------------- +",
+            f"Usuário         : {usuario}",
+            f"Máquina         : {hostname}",
+            f"Sistema         : {sistema} {release}",
+            f"Versão SO       : {version}",
+            f"Arquitetura     : {arquitetura}",
+            f"Processador     : {processador}",
+            f"CPU (núcleos)   : {cpu_cores} físicos / {cpu_threads} lógicos",
+            f"Memória RAM     : {ram_total} GB",
+            f"Boot Mode       : {boot_mode}",
+            f"Uptime          : {uptime}",
+            f"Iniciado em     : {inicio}",
+            f"Log salvo como  : {os.path.basename(self.log_file)}",
+            f"|",
+            f"+   Software  + : + ------------------------------- +",
+            f"Aplicação       : Sek Optimize",
+            f"Versão          : {VERSION_SOFTWARE}",
+            f"Python          : {python_ver}",
+            f"Executável      : {exec_mode}",
+            f"Diretório base  : {os.getcwd()}",
         ]
 
         self.log_fetch("")  # linha em branco inicial
@@ -133,8 +161,36 @@ class App:
         )
 
     def clean_temp(self):
-        self.run_command("Limpando temporários",
-            r'del /q /f /s "%TEMP%\*.*"'
+        user_temp = os.environ.get("TEMP")
+        windows_temp = r"C:\Windows\Temp"
+
+        size_gb, file_count = self.get_folder_info(user_temp)
+
+        table = (
+            "\n\n==============================================\n"
+            "        LIMPEZA DE ARQUIVOS TEMP          \n"
+            "==================================================\n"
+            f"Pasta analisada : {user_temp}\n"
+            "--------------------------------------------------\n"
+            f"Total de arquivos : {file_count}\n"
+            f"Tamanho ocupado  : {size_gb} GB\n"
+            "==================================================\n\n"
+        )
+
+        # TEMP do usuário
+        self.run_command(
+            table,
+            rf'del /q /f /s "{user_temp}\*.*"'
+        )
+
+        # TEMP do Windows
+        self.run_command(
+            "\n\n==================================================\n"
+            "     LIMPEZA TEMP DO WINDOWS              \n"
+            "==================================================\n"
+            f"Pasta : {windows_temp}\n"
+            "==================================================\n\n",
+            rf'del /q /f /s "{windows_temp}\*.*"'
         )
 
     def flush_dns(self):
@@ -260,3 +316,22 @@ class App:
     # ============================================
     def run_custom_command(self, command):
         self._run_command(command)
+
+    # ============================================
+    # Obtem informações de uma pasta especifica.
+    # ============================================
+    def get_folder_info(self, folder_path):
+        total_size = 0
+        total_files = 0
+
+        for root, dirs, files in os.walk(folder_path):
+            total_files += len(files)
+            for f in files:
+                try:
+                    fp = os.path.join(root, f)
+                    total_size += os.path.getsize(fp)
+                except (OSError, PermissionError):
+                    pass
+
+        size_gb = total_size / (1024 ** 3)
+        return round(size_gb, 2), total_files

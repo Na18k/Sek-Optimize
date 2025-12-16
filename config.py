@@ -4,7 +4,16 @@ from datetime import datetime
 import socket
 import os
 import platform
+import sys
+import psutil
+import getpass
+import time
 
+import tkinter as tk
+from tkinter import ttk, messagebox, scrolledtext
+from collections import defaultdict
+
+VERSION_SOFTWARE = "0.0.3"
 
 APP_ASCII = [
 "           .:===++++++===:.           ",
@@ -25,7 +34,8 @@ APP_ASCII = [
 "      :#%#--..          ..-#%%#:.     ",
 "        :*:%%%#+::::::+#%%%%*..       ",
 "           .-##%%%%%%%%%#-...         ",
-"                       ..             "
+"                       ..             ",
+"                                      "
 ]
 
 
@@ -67,7 +77,7 @@ ACTIONS = {
     },
     9: {
         "label": "Otimização Completa",
-        "description": "Executa todas as otimizações de uma vez.",
+        "description": "Executa todas as otimizações de uma vez. \n- Desativar Transparência. \n- Desativar Game Mode. \n- Plano de Energia. \n- Efeitos Visuais. \n- Desativar Serviços Pesados. \n- Limpa Temporários",
         "tab": "Otimização",
         "danger": True,
         "handler": "optimize_all",
@@ -178,3 +188,20 @@ ACTIONS = {
         "handler": "run_driverquery",
     },
 }
+
+
+AUTOCOMPLETE_COMMANDS = [
+    "ipconfig",
+    "ping",
+    "tracert",
+    "nslookup",
+    "netstat",
+    "arp",
+    "route",
+    "systeminfo",
+    "tasklist",
+    "driverquery",
+    "sfc /scannow",
+    "dism /online /cleanup-image /restorehealth",
+    "cls"
+]
