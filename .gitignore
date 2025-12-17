@@ -1,3 +1,19 @@
+# Python
 __pycache__/
+*.pyc
+*.pyo
+*.pyd
+
+# Build
 build/
+dist/
+
+# Logs
 logs/
+
+# Virtual env
+venv/
+.env/
+
+# PyInstaller
+*.spec
