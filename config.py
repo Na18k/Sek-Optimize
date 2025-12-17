@@ -13,7 +13,11 @@ import tkinter as tk
 from tkinter import ttk, messagebox, scrolledtext
 from collections import defaultdict
 
-VERSION_SOFTWARE = "0.0.3"
+
+# Modulos Útil
+from util.system_details import *
+
+VERSION_SOFTWARE = "0.1.0"
 
 APP_ASCII = [
 "           .:===++++++===:.           ",
@@ -236,6 +240,20 @@ ACTIONS = {
         "tab": "Manutenção",
         "danger": True,
         "handler": "check_disk_surface",
+    },
+    27: {
+        "label": "Reiniciar Spooler",
+        "description": "Reinicia o serviço de impressão e limpa filas travadas.",
+        "tab": "Manutenção",
+        "danger": True,
+        "handler": "restart_print_spooler",
+    },
+    28: {
+        "label": "==> Relatório do Sistema.",
+        "description": "Coleta informações completas de hardware e sistema e exibe no log em formato de árvore.",
+        "tab": "Sistema",
+        "danger": False,
+        "handler": "run_system_report",
     },
 }
 

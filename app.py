@@ -72,6 +72,11 @@ class App:
         with open(self.log_file, "a", encoding="utf-8", errors="replace") as f:
             f.write(msg + "\n")
 
+    def log_tree(self, title, lines):
+        self.log("")
+        self.log(f"[{title}]")
+        for line in lines:
+            self.log(line)
 
     def show_fetch(self):
         inicio = self.start_time.strftime("%d/%m/%Y %H:%M:%S")
@@ -355,6 +360,97 @@ class App:
             "Verificando saúde do disco (SMART)",
             'wmic diskdrive get model,status,interfacetype,mediatype'
         )
+
+    def restart_print_spooler(self):
+        self.run_command(
+            "Reiniciando spooler de impressão",
+            r'net stop spooler & '
+            r'del /q /f /s C:\Windows\System32\spool\PRINTERS\*.* & '
+            r'net start spooler'
+        )
+
+    def run_system_report(self):
+        self.log("")
+        self.log("=" * 60)
+        self.log("RELATÓRIO DO SISTEMA".center(60))
+        self.log("=" * 60)
+
+        # ================= MEMÓRIA =================
+        slots, max_ram = get_ram_capability()
+        modules = get_ram_modules()
+
+        mem_lines = [
+            "├── Capacidade",
+            f"│   ├── Slots disponíveis : {slots}",
+            f"│   └── Máximo suportado  : {max_ram} GB",
+            "├── Módulos"
+        ]
+
+        for i, m in enumerate(modules):
+            last = (i == len(modules) - 1)
+            branch = "└──" if last else "├──"
+            indent = "    " if last else "│   "
+
+            mem_lines.extend([
+                f"{branch} {m['Slot']}",
+                f"{indent}├── Capacidade (GB)  : {m['Capacidade (GB)']}",
+                f"{indent}├── Velocidade (MHz) : {m['Velocidade (MHz)']}",
+                f"{indent}├── Fabricante       : {m['Fabricante']}",
+                f"{indent}├── Tipo              : {m['Tipo']}",
+                f"{indent}└── Serial            : {m['Serial']}",
+            ])
+
+        self.log_tree("MEMÓRIA", mem_lines)
+
+        # ================= CPU =================
+        cpu = get_cpu_info()
+        self.log_tree("CPU", [
+            f"├── Modelo            : {cpu['Modelo']}",
+            f"├── Arquitetura       : {cpu['Arquitetura']}",
+            f"├── Bits              : {cpu['Bits']}",
+            f"├── Frequência Base   : {cpu['Frequência Base']}",
+            f"└── Núcleos           : {cpu['Núcleos']}",
+        ])
+
+        # ================= GPU =================
+        gpus = get_gpu_info()
+        gpu_lines = []
+
+        for i, g in enumerate(gpus):
+            last = (i == len(gpus) - 1)
+            branch = "└──" if last else "├──"
+            indent = "    " if last else "│   "
+
+            gpu_lines.extend([
+                f"{branch} {g['Nome']}",
+                f"{indent}├── VRAM (MB) : {g['VRAM (MB)']}",
+                f"{indent}└── Driver    : {g['Driver']}",
+            ])
+
+        self.log_tree("GPU", gpu_lines)
+
+        # ================= DISCOS =================
+        disks = get_disks()
+        disk_lines = []
+
+        for i, d in enumerate(disks):
+            last = (i == len(disks) - 1)
+            branch = "└──" if last else "├──"
+            indent = "    " if last else "│   "
+
+            disk_lines.extend([
+                f"{branch} {d['Modelo']}",
+                f"{indent}├── Interface    : {d['Interface']}",
+                f"{indent}├── Tamanho (GB) : {d['Tamanho (GB)']}",
+                f"{indent}└── Serial       : {d['Serial']}",
+            ])
+
+        self.log_tree("DISCOS", disk_lines)
+
+        self.log("")
+        self.log("=" * 60)
+
+
 
     # ============================================
     # MAPEAMENTO DOS BOTÕES
