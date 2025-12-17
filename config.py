@@ -209,6 +209,34 @@ ACTIONS = {
         "danger": False,
         "handler": "run_nslookup",
     },
+    23: {
+        "label": "Saúde do Disco (SMART)",
+        "description": "Verifica o status SMART do disco (OK ou risco de falha).",
+        "tab": "Sistema",
+        "danger": False,
+        "handler": "check_disk_health",
+    },
+    24: {
+        "label": "Informações do Disco",
+        "description": "Mostra modelo, tipo e tamanho do disco.",
+        "tab": "Sistema",
+        "danger": False,
+        "handler": "disk_info",
+    },
+    25: {
+        "label": "Uso do Disco",
+        "description": "Exibe uso, espaço livre e ocupação do disco C:.",
+        "tab": "Sistema",
+        "danger": False,
+        "handler": "disk_usage_report",
+    },
+    26: {
+        "label": "Verificar Disco (CHKDSK)",
+        "description": "Verifica erros e setores defeituosos (pode exigir reinício).",
+        "tab": "Manutenção",
+        "danger": True,
+        "handler": "check_disk_surface",
+    },
 }
 
 

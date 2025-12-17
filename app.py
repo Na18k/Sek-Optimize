@@ -311,6 +311,51 @@ class App:
             r'del /q /f /s C:\Windows\Prefetch\*.*'
         )
 
+    def disk_usage_report(self):
+        usage = psutil.disk_usage("C:/")
+
+        total = round(usage.total / (1024**3), 1)
+        used = round(usage.used / (1024**3), 1)
+        free = round(usage.free / (1024**3), 1)
+        percent = usage.percent
+
+        table = (
+            "\n============================================\n"
+            "          USO DO DISCO (C:)                \n"
+            "============================================\n"
+            f"Tamanho total : {total} GB\n"
+            f"Em uso        : {used} GB\n"
+            f"Livre         : {free} GB\n"
+            f"Ocupação      : {percent}%\n"
+            "============================================\n"
+        )
+
+        self.log(table)
+
+    def check_disk_surface(self):
+        self.run_command(
+            "Verificando superfície do disco (CHKDSK)",
+            "chkdsk C: /f /r"
+        )
+
+    def disk_errors(self):
+        self.run_command(
+            "Verificando erros lógicos no disco",
+            'wmic diskdrive get status'
+        )
+
+    def disk_info(self):
+        self.run_command(
+            "Informações detalhadas do disco",
+            'wmic diskdrive get model,serialnumber,size,mediatype'
+        )
+
+    def check_disk_health(self):
+        self.run_command(
+            "Verificando saúde do disco (SMART)",
+            'wmic diskdrive get model,status,interfacetype,mediatype'
+        )
+
     # ============================================
     # MAPEAMENTO DOS BOTÕES
     # ============================================
