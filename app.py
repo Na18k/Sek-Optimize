@@ -44,7 +44,7 @@ class App:
 
 
     def run_command(self, desc, cmd):
-        self.log("" + desc)
+        self.log_title("" + desc)
 
         with subprocess.Popen(
             cmd, shell=True,
@@ -55,6 +55,9 @@ class App:
                 line = self._decode(raw).replace("\r\n", "\n")
                 self.log(line.rstrip("\n"))
 
+        self.log('')
+        self.log_info("Finalizado...")
+        self.log('')
 
     # ============================================
     # FAST FETCH
@@ -77,6 +80,26 @@ class App:
         self.log(f"[{title}]")
         for line in lines:
             self.log(line)
+
+    def log_title(self, title):
+        self.log("")
+        self.log("="*60)
+        self.log(f"   {title}".center(60))
+        self.log("="*60)
+
+    def log_info(self, msg):
+        self.log(f"[INFO] {msg}")
+
+    def log_warn(self, msg):
+        self.log(f"[ATENÇÂO] {msg}")
+
+    def log_error(self, msg):
+        self.log(f"[ERRO] {msg}")
+
+    def log_block_raw(self, text):
+        for line in text.splitlines():
+            self.log(line)
+
 
     def show_fetch(self):
         inicio = self.start_time.strftime("%d/%m/%Y %H:%M:%S")
@@ -176,32 +199,49 @@ class App:
         user_temp = os.environ.get("TEMP")
         windows_temp = r"C:\Windows\Temp"
 
-        size_gb, file_count = self.get_folder_info(user_temp)
+        # ================= TEMP DO USUÁRIO =================
+        size_gb_user, file_count_user = self.get_folder_info(user_temp)
 
-        table = (
-            "\n\n==============================================\n"
-            "        LIMPEZA DE ARQUIVOS TEMP          \n"
-            "==================================================\n"
-            f"Pasta analisada : {user_temp}\n"
-            "--------------------------------------------------\n"
-            f"Total de arquivos : {file_count}\n"
-            f"Tamanho ocupado  : {size_gb} GB\n"
-            "==================================================\n\n"
-        )
+        user_header = [
+            "",
+            "=" * 50,
+            "        LIMPEZA DE ARQUIVOS TEMP (USUÁRIO)",
+            "=" * 50,
+            f"Pasta analisada : {user_temp}",
+            "-" * 50,
+            f"Total de arquivos : {file_count_user}",
+            f"Tamanho ocupado  : {size_gb_user} GB",
+            "",
+        ]
 
-        # TEMP do usuário
+        for line in user_header:
+            self.log(line)
+
         self.run_command(
-            table,
+            "Iniciando limpeza do TEMP do usuário",
             rf'del /q /f /s "{user_temp}\*.*"'
         )
 
-        # TEMP do Windows
+        # ================= TEMP DO WINDOWS =================
+        size_gb_win, file_count_win = self.get_folder_info(windows_temp)
+
+        win_header = [
+            "",
+            "=" * 50,
+            "        LIMPEZA TEMP DO WINDOWS",
+            "=" * 50,
+            f"Pasta analisada : {windows_temp}",
+            "-" * 50,
+            f"Total de arquivos : {file_count_win}",
+            f"Tamanho ocupado  : {size_gb_win} GB",
+            "",
+        ]
+
+        for line in win_header:
+            self.log(line)
+
         self.run_command(
-            "\n\n==================================================\n"
-            "     LIMPEZA TEMP DO WINDOWS              \n"
-            "==================================================\n"
-            f"Pasta : {windows_temp}\n"
-            "==================================================\n\n",
+            "Iniciando limpeza do TEMP do Windows",
             rf'del /q /f /s "{windows_temp}\*.*"'
         )
 
@@ -303,6 +343,22 @@ class App:
         )
 
     def clean_windows_update(self):
+        folder = r"C:\Windows\SoftwareDistribution\Download"
+        size_gb, file_count = self.get_folder_info(folder)
+
+        table = [
+            "==============================================",
+            "     CACHE DO WINDOWS UPDATE              ",
+            "==============================================",
+            f"Pasta            : {folder}",
+            f"Total de arquivos: {file_count}",
+            f"Tamanho ocupado : {size_gb} GB",
+            ""
+        ]
+
+        for line in table:
+            self.log(line)
+
         self.run_command(
             "Limpando cache do Windows Update",
             r'net stop wuauserv & '
@@ -311,6 +367,22 @@ class App:
         )
 
     def clean_prefetch(self):
+        folder = r"C:\Windows\Prefetch"
+        size_gb, file_count = self.get_folder_info(folder)
+
+        table = [
+            "==============================================",
+            "        PASTA PREFETCH                    ",
+            "==============================================",
+            f"Pasta            : {folder}",
+            f"Total de arquivos: {file_count}",
+            f"Tamanho ocupado : {size_gb} GB",
+            ""
+        ]
+
+        for line in table:
+            self.log(line)
+
         self.run_command(
             "Limpando Prefetch do Windows",
             r'del /q /f /s C:\Windows\Prefetch\*.*'
